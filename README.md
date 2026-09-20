@@ -182,32 +182,127 @@ Primary contact for inquiries: Team Leader (Preston Jordan)
 
 ---
 
-## Repository Structure (proposed)
+## Repository Structure
 
-- docs/
-  - requirements/
-  - architecture/
-  - user-manual/
-  - research-report/
-- designs/
-  - ui-mockups/
-  - wireframes/
-- meeting-notes/
-- reports/
-  - samples/
-- gantt/
-  - project-schedule.gantt
-- src/ (added as development begins)
-  - backend/
-  - frontend/
-- scripts/
-- .github/
-  - issue_templates/
-  - pull_request_template.md
-- LICENSE
-- CONTRIBUTING.md
+The frontend package lives at the repository root, with React application source in `src/frontend/`. The backend is a separate Node.js package in `src/backend/`.
 
-Note: Actual structure may evolve with the project.
+```text
+ProjectPeerEvaluation-P25-02/
+├── build/                                       # Generated frontend production output
+├── docs/                                        # Project documentation
+│   ├── architecture/
+│   │   ├── api-documentation.md
+│   │   ├── database-schema.md
+│   │   └── system-architecture.md
+│   ├── gantt/
+│   │   └── project-schedule.gantt
+│   ├── meeting-notes/
+│   │   └── weekly-meetings.md
+│   ├── requirements/
+│   │   ├── functional-requirements.md
+│   │   ├── non-functional-requirements.md
+│   │   ├── requirements.txt (Backend)
+│   │   └── user-stories.md
+│   ├── research-report/
+│   │   └── tech-stack-analysis.md
+│   ├── user-manual/
+│   │   ├── professor-guide.md
+│   │   └── student-guide.md
+│   └── csv-upload-format.md
+├── public/                                      # Frontend public assets
+│   ├── 404.html
+│   ├── _redirects                               # Hosting redirect rules
+│   └── index.html                               # HTML template for React
+├── src/
+│   ├── backend/                                 # Node.js / Express application
+│   │   ├── config/
+│   │   │   ├── corsConfig.js
+│   │   │   ├── db.js
+│   │   │   └── rubric.js
+│   │   ├── controllers/                         # Request handling and application logic
+│   │   │   ├── aiController.js
+│   │   │   ├── authController.js
+│   │   │   ├── courseController.js
+│   │   │   ├── evaluationController.js
+│   │   │   ├── professorController.js
+│   │   │   ├── reportController.js
+│   │   │   ├── studentController.js
+│   │   │   └── teamController.js
+│   │   ├── middleware/
+│   │   │   ├── auth.js
+│   │   │   ├── authMiddleware.js
+│   │   │   └── errorHandler.js
+│   │   ├── migrations/
+│   │   │   └── migrateCourses.js
+│   │   ├── models/                              # MongoDB / Mongoose schemas
+│   │   │   ├── Course.js
+│   │   │   ├── Evaluation.js
+│   │   │   ├── Professor.js
+│   │   │   ├── Report.js
+│   │   │   ├── Student.js
+│   │   │   └── Team.js
+│   │   ├── routes/                              # API route definitions
+│   │   │   ├── ai.js
+│   │   │   ├── auth.js
+│   │   │   ├── authRoutes.js
+│   │   │   ├── courseRoutes.js
+│   │   │   ├── courses.js
+│   │   │   ├── evaluate.js
+│   │   │   ├── professor.js
+│   │   │   └── testData.js
+│   │   ├── scripts/                             # Database inspection and test-data utilities
+│   │   ├── utils/
+│   │   │   ├── emailUtils.js
+│   │   │   └── tokenUtils.js
+│   │   ├── .env                                 # Environment configuration
+│   │   ├── .env.example
+│   │   ├── debug_student.js
+│   │   ├── index.js                             # Server entry point
+│   │   ├── package-lock.json
+│   │   ├── package.json                         # Backend dependencies and start command
+│   │   └── test_api.js
+│   ├── frontend/                                # React application source
+│   │   ├── components/
+│   │   │   └── ProtectedRoute.js
+│   │   ├── contexts/
+│   │   │   └── AuthContext.js
+│   │   ├── pages/
+│   │   │   ├── CourseManagement.js
+│   │   │   ├── Dashboard.js
+│   │   │   ├── LoginPage.js
+│   │   │   ├── Reports.js
+│   │   │   ├── ResetPassword.js
+│   │   │   ├── Settings.js
+│   │   │   ├── StudentEvaluation.js
+│   │   │   └── TeamAssignment.js
+│   │   ├── services/                            # API communication helpers
+│   │   │   ├── api.js
+│   │   │   └── login.js
+│   │   ├── styles/
+│   │   │   └── CourseManagement.module.css
+│   │   ├── App.css
+│   │   ├── App.js                               # Main application component
+│   │   ├── index.js                             # Additional entry file
+│   │   └── theme.js                             # UI theme
+│   └── index.js                                 # Active frontend entry point
+├── .gitignore
+├── DEPLOYMENT_GUIDE.md
+├── docker-compose.yml
+├── Frontend-Backend API Contract Document
+├── frontend-backend-integration-guide.txt
+├── package-lock.json                            # Resolved frontend dependency versions
+├── package.json                                 # Frontend dependencies and shared commands
+├── PROJECT STRUCTURE                            # Older proposed structure
+├── README.md                                    # Project overview and setup instructions
+├── render-build-info.txt
+├── render-env-variables.txt
+├── start.bat                                    # Windows startup script
+└── start.ps1                                    # PowerShell startup script
+```
+
+Individual generated files under `build/` and utility scripts under `src/backend/scripts/` are condensed above. Local checkouts also contain `.git/` metadata and may contain `.agents/` and `.codex/` configuration directories; these are not tracked project files.
+
+The frontend uses the root `package.json`; there is no `src/frontend/package.json`. Run frontend and shared development commands from the repository root. The active frontend entry point is `src/index.js`, which imports `src/frontend/App.js`; `src/frontend/index.js` is an additional entry file and is not the entry point used by the current build.
 
 ---
 
