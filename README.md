@@ -74,9 +74,16 @@ AI features are optional and will depend on remaining timeline after core milest
 
 ### Prerequisites
 
-1. **Install [Node.js and npm](https://nodejs.org/)**
-  - Download and install the LTS version for your operating system.
-  - npm is included with Node.js.
+1. **Install [Node.js and npm](https://nodejs.org/en/download) using nvm**
+  - On the download page, select **LTS**, your **operating system**, **using nvm**, and **with npm**.
+  - Follow the installation instructions for your selected operating system. For native Windows terminals, use [nvm-windows](https://github.com/coreybutler/nvm-windows); for WSL, select Linux and use nvm inside WSL.
+  - npm is included with Node.js. The project requires Node.js **20.9.0 or newer** and npm **9.0.0 or newer**.
+  - Open a new terminal after installation and verify both versions:
+
+    ```bash
+    node --version
+    npm --version
+    ```
 
 2. **Install [Git](https://git-scm.com/)** (optional, for cloning the repo)
   - Or download the ZIP from GitHub and extract it.
