@@ -76,7 +76,8 @@ AI features are optional and will depend on remaining timeline after core milest
 
 1. **Install [Node.js and npm](https://nodejs.org/)**
   - Download and install the LTS version for your operating system.
-  - npm is included with Node.js.
+  - npm is included with Node.js. Use Node 20.19+, or 22.12+ on newer supported release lines, and npm 9+.
+  - In WSL, use Linux Node/npm rather than Windows executables.
 
 2. **Install [Git](https://git-scm.com/)** (optional, for cloning the repo)
   - Or download the ZIP from GitHub and extract it.
@@ -129,7 +130,10 @@ AI features are optional and will depend on remaining timeline after core milest
 - `npm run dev` - Start both frontend and backend servers simultaneously
 - `npm run setup` - Install dependencies for both frontend and backend
 - `npm run start:backend` - Start only the backend server
-- `npm run start:frontend` - Start only the frontend server (default React scripts)
+- `npm run start:frontend` - Start the Vite frontend on port 3000
+- `npm start` - Start the Vite frontend
+- `npm run build` - Generate production files in `build/`
+- `npm run preview` - Preview the production build locally; production API requests use the deployed backend
 
 ---
 

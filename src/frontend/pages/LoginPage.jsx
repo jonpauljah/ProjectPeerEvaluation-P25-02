@@ -32,7 +32,7 @@ function LoginPage() {
     }
     try {
       // Replace with your actual backend endpoint for password reset
-      const baseURL = process.env.NODE_ENV === 'production'
+      const baseURL = import.meta.env.PROD
         ? 'https://peer-evaluation-backend.onrender.com/api'
         : 'http://localhost:5000/api';
       await axios.post(`${baseURL}/auth/reset-password`, { email: resetEmail });
@@ -51,7 +51,7 @@ function LoginPage() {
     e.preventDefault();
     setError('');
 
-    const baseURL = process.env.NODE_ENV === 'production'
+    const baseURL = import.meta.env.PROD
       ? 'https://peer-evaluation-backend.onrender.com/api'
       : 'http://localhost:5000/api';
       

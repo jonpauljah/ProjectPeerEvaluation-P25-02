@@ -2657,7 +2657,7 @@ function CourseManagement() {
                             <Button
                               size="small"
                               onClick={() => {
-                                const frontendURL = process.env.NODE_ENV === 'production'
+                                const frontendURL = import.meta.env.PROD
                                   ? 'https://peer-evaluation-frontend.onrender.com'
                                   : 'http://localhost:3000';
                                 window.open(`${frontendURL}/evaluate/${student.evaluation_token}`, '_blank');

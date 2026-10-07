@@ -2,7 +2,7 @@ import axios from 'axios';
 
 // Detect environment and set appropriate API URL
 // Check multiple indicators for production environment
-const isProduction = process.env.NODE_ENV === 'production' || 
+const isProduction = import.meta.env.PROD ||
                     window.location.hostname.includes('onrender.com') ||
                     window.location.hostname !== 'localhost';
 
@@ -11,7 +11,7 @@ const API_BASE_URL = isProduction
   : 'http://localhost:5000/api';
 
 console.log('Environment Detection:', {
-  NODE_ENV: process.env.NODE_ENV,
+  NODE_ENV: import.meta.env.MODE,
   hostname: window.location.hostname,
   isProduction: isProduction,
   API_BASE_URL: API_BASE_URL

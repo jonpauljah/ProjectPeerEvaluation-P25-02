@@ -1,0 +1,50 @@
+# CRA-to-Vite Migration
+
+## Overview
+
+Create React App (CRA) was deprecated by the React team in February 2025. It has no active maintainers and relies on aging build tooling. Existing applications can continue using it, but migration is recommended for ongoing development.
+
+This project is migrating to Vite to replace CRA's build tooling, improve development startup and hot reloading, and simplify build configuration. The migration preserves the React application, local ports, and production build directory.
+
+Migration reference: [Migrating from Create React App to Vite: A Modern Approach](https://adhithiravi.medium.com/migrating-from-create-react-app-to-vite-a-modern-approach-76148adb8983).
+
+Official announcement: [Sunsetting Create React App](https://react.dev/blog/2025/02/14/sunsetting-create-react-app).
+
+Branch: `60-migrate-frontend-build-tooling-from-create-react-app-to-vite`
+
+## Configuration Changes
+
+| Configuration | Issue with previous configuration | New configuration | Reason for change |
+|---|---|---|---|
+| HTML entry point | CRA injected scripts into `public/index.html`; Vite expects root-level HTML. | Root `index.html` explicitly loads `/src/index.jsx`. | Establishes Vite's application entry point. |
+| JSX filenames | Components used `.js` filenames containing JSX. | Renamed JSX-containing files to `.jsx`. | Allows Vite to recognize and transform JSX. |
+| Build configuration | CRA hid build configuration behind `react-scripts`. | `vite.config.mjs` enables the React plugin. | Configures React processing explicitly while preserving backend CommonJS. |
+| npm scripts | Development and build commands invoked removed CRA tooling. | `start` and `start:frontend` run `vite`; `build` runs `vite build`; added `preview`. | Routes existing workflows through Vite. |
+| Production output | Vite defaults to `dist/`; this repository tracks `build/`. | `build.outDir: 'build'`. | Preserves the existing artifact directory. |
+| Development server | Vite defaults differ from the existing frontend setup. | Host `0.0.0.0`, port `3000`, and `strictPort: true`. | Preserves network access and the expected port; prevents silently changing ports. |
+| API proxy | The package-level CRA `proxy` setting is not Vite configuration. | Vite forwards `/api` to `http://localhost:5000`. | Preserves forwarding for relative API requests. |
+| Frontend environment values | Code relied on CRA's `process.env.NODE_ENV` substitution. | Uses `import.meta.env.PROD` and `import.meta.env.MODE`. | Uses Vite's environment API while preserving URL selection. |
+| ESLint configuration | Configuration referenced removed CRA presets. | Explicit configuration uses Espree, existing plugins, and 113 preserved rules. | Keeps ESLint working without CRA or Babel parsing. |
+| Runtime requirements | Supported Node/npm versions were not declared consistently. | Frontend and backend declare Node `^20.19.0 || >=22.12.0` and npm `>=9.0.0`. | Documents compatible runtimes for the updated tooling. |
+
+## Verification and Remaining Checks
+
+Production builds passed, the Vite development server served HTML and React modules on port 3000, and explicit ESLint configuration checked all 62 source/configuration files with zero errors and eight existing warnings. The production bundle-size warning remains. Generated artifacts continue to be tracked in `build/`.
+
+`.gitignore` includes `build/`, which ignores new untracked build files but does not untrack previously committed files. Existing build artifacts can remain tracked while newly generated Vite assets are ignored; this is a mixed tracking state that should be resolved when deciding the artifact policy.
+
+Manual browser/backend workflows and deployment runtime/settings still require verification. Docker and browser-target configuration are unchanged and deferred to separate work. Dependency changes and accepted tooling risks are recorded in [dependency-updates.md](dependency-updates.md).
+
+## Possible Future Update: Use Vite's Default Output Directory
+
+Vite currently outputs to `build/` to preserve the existing repository
+setup. Since the new Render hosting service is not configured yet,
+we may later remove the `build.outDir` override and use Vite's default
+`dist/` directory.
+
+That change would also require updating active documentation and
+generated-artifact tracking. Future Render settings would use
+`npm run build` and publish `dist/`. Local development on port 3000
+would remain unchanged.
+
+Deferred for now; the current output directory remains `build/`.
