@@ -1,0 +1,68 @@
+# Summary
+
+<table>
+<tr>
+<td>RTM Statistics</td>
+<td>Count</td>
+</tr>
+<tr>
+<td>Requirement Types</td>
+<td></td>
+</tr>
+<tr>
+<td>Functional Requirements</td>
+<td><span title="=COUNTIF(RTM[Type],&quot;Functional&quot;)">25</span></td>
+</tr>
+<tr>
+<td>Nonfunctional Requirements</td>
+<td><span title="=COUNTIF(RTM[Type],&quot;Nonfunctional&quot;)">11</span></td>
+</tr>
+<tr>
+<td>Total Requirements</td>
+<td><span title="=SUM(B11:B12)">36</span></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Requirement Status</td>
+<td></td>
+</tr>
+<tr>
+<td>Not Started</td>
+<td><span title="=COUNTIF(RTM[Status],&quot;Not Started&quot;)">36</span></td>
+</tr>
+<tr>
+<td>In Progress</td>
+<td><span title="=COUNTIF(RTM[Status],&quot;In Progress&quot;)">0</span></td>
+</tr>
+<tr>
+<td>Implemented</td>
+<td><span title="=COUNTIF(RTM[Status],&quot;Implemented&quot;)">0</span></td>
+</tr>
+<tr>
+<td>Tested</td>
+<td><span title="=COUNTIF(RTM[Status],&quot;Tested&quot;)">0</span></td>
+</tr>
+<tr>
+<td>Verified</td>
+<td><span title="=COUNTIF(RTM[Status],&quot;Verified&quot;)">0</span></td>
+</tr>
+<tr>
+<td>Deferred</td>
+<td><span title="=COUNTIF(RTM[Status],&quot;Deferred&quot;)">0</span></td>
+</tr>
+<tr>
+<td>Blocked</td>
+<td><span title="=COUNTIF(RTM[Status],&quot;Blocked&quot;)">0</span></td>
+</tr>
+<tr>
+<td>Completion</td>
+<td></td>
+</tr>
+<tr>
+<td>Completion Percentage</td>
+<td><span title="=IFERROR(COUNTIF(RTM[Status],&quot;Verified&quot;)/COUNTA(RTM[Requirement ID]),0)">0</span></td>
+</tr>
+</table>
