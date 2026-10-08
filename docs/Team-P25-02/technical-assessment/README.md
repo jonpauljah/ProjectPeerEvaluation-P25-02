@@ -12,13 +12,13 @@ By SWE 4724 Software Eng Capstone W01 (87351) Team P25-02
 
 - [Purpose and Scope](#1-purpose-and-scope)
 - [Executive Assessment Summary](#2-executive-assessment-summary)
-1. [Architecture and Stack](01-architecture-and-stack.md) — sections 3, 4
-2. [Repository and Configuration](02-repository-and-configuration.md) — sections 5, 6
-3. [External Dependencies](03-dependencies.md) — sections 7
-4. [Database Architecture](04-database.md) — sections 8
-5. [Deployment and Containerization](05-deployment-and-containerization.md) — sections 9, 10
-6. [Testing and Operational Readiness](06-testing-and-operational-readiness.md) — sections 11, 12
-7. [Defects and Limitations](07-defects-and-limitations.md) — sections 13
+1. [Architecture and Stack](01-architecture-and-configuration.md#01-architecture-and-stack) — sections 3, 4
+2. [Repository and Configuration](01-architecture-and-configuration.md#02-repository-and-configuration) — sections 5, 6
+3. [External Dependencies](02-dependencies-database-and-deployment.md#03-dependencies) — sections 7
+4. [Database Architecture](02-dependencies-database-and-deployment.md#04-database) — sections 8
+5. [Deployment and Containerization](02-dependencies-database-and-deployment.md#05-deployment-and-containerization) — sections 9, 10
+6. [Testing and Operational Readiness](03-testing-and-limitations.md#06-testing-and-operational-readiness) — sections 11, 12
+7. [Defects and Limitations](03-testing-and-limitations.md#07-defects-and-limitations) — sections 13
 - [Assessment Priorities and Planned Direction](#14-assessment-priorities-and-planned-direction)
 
 ## Version
