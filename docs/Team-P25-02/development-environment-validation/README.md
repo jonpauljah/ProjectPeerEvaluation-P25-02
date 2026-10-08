@@ -27,7 +27,7 @@ The planned development environment will be addressed separately in the second h
 ## Validation Sections
 
 1. [Current Development Environment](01-current-development-environment.md)
-2. [Current Validation Results and Assessment](02-validation-results.md)
-3. [Planned Development Environment](03-planned-development-environment.md)
-4. [Planned Configuration and Supporting Services](04-planned-configuration-and-services.md)
-5. [Planned Testing Support and Validation Criteria](05-testing-and-validation-criteria.md)
+2. [Current Validation Results and Assessment](02-validation-and-planned-environment.md#02-validation-results)
+3. [Planned Development Environment](02-validation-and-planned-environment.md#03-planned-development-environment)
+4. [Planned Configuration and Supporting Services](03-configuration-and-testing.md#04-planned-configuration-and-services)
+5. [Planned Testing Support and Validation Criteria](03-configuration-and-testing.md#05-testing-and-validation-criteria)

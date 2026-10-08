@@ -18,8 +18,8 @@ Project ID: P25    Team ID: P25-02
 
 ## Review Sections
 
-1. [Current Architecture](01-current-architecture.md)
-2. [Architecture Issues and Constraints](02-issues-and-constraints.md)
-3. [Stakeholders and Software Quality Attributes](03-stakeholders-and-quality-attributes.md)
-4. [Target Architecture](04-target-architecture.md)
-5. [Next Steps](05-next-steps.md)
+1. [Current Architecture](01-current-architecture-and-quality.md#01-current-architecture)
+2. [Architecture Issues and Constraints](01-current-architecture-and-quality.md#02-issues-and-constraints)
+3. [Stakeholders and Software Quality Attributes](01-current-architecture-and-quality.md#03-stakeholders-and-quality-attributes)
+4. [Target Architecture](02-target-architecture-and-next-steps.md#04-target-architecture)
+5. [Next Steps](02-target-architecture-and-next-steps.md#05-next-steps)
