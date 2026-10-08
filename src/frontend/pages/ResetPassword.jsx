@@ -21,7 +21,7 @@ function ResetPassword() {
       return;
     }
     try {
-      const baseURL = process.env.NODE_ENV === 'production'
+      const baseURL = import.meta.env.PROD
         ? 'https://peer-evaluation-backend.onrender.com/api'
         : 'http://localhost:5000/api';
       const res = await axios.post(`${baseURL}/auth/update-password`, {
