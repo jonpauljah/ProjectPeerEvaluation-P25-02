@@ -20,20 +20,21 @@ Branch: `60-migrate-frontend-build-tooling-from-create-react-app-to-vite`
 | JSX filenames | Components used `.js` filenames containing JSX. | Renamed JSX-containing files to `.jsx`. | Allows Vite to recognize and transform JSX. |
 | Build configuration | CRA hid build configuration behind `react-scripts`. | `vite.config.mjs` enables the React plugin. | Configures React processing explicitly while preserving backend CommonJS. |
 | npm scripts | Development and build commands invoked removed CRA tooling. | `start` and `start:frontend` run `vite`; `build` runs `vite build`; added `preview`. | Routes existing workflows through Vite. |
-| Production output | Vite defaults to `dist/`; this repository tracks `build/`. | `build.outDir: 'build'`. | Preserves the existing artifact directory. |
+| Production output | Vite defaults to `dist/`; CRA used `build/`. | `build.outDir: 'build'`. | Preserves the existing artifact directory. |
 | Development server | Vite defaults differ from the existing frontend setup. | Host `0.0.0.0`, port `3000`, and `strictPort: true`. | Preserves network access and the expected port; prevents silently changing ports. |
 | API proxy | The package-level CRA `proxy` setting is not Vite configuration. | Vite forwards `/api` to `http://localhost:5000`. | Preserves forwarding for relative API requests. |
 | Frontend environment values | Code relied on CRA's `process.env.NODE_ENV` substitution. | Uses `import.meta.env.PROD` and `import.meta.env.MODE`. | Uses Vite's environment API while preserving URL selection. |
 | ESLint configuration | Configuration referenced removed CRA presets. | Explicit configuration uses Espree, existing plugins, and 113 preserved rules. | Keeps ESLint working without CRA or Babel parsing. |
 | Runtime requirements | Supported Node/npm versions were not declared consistently. | Frontend and backend declare Node `^20.19.0 || >=22.12.0` and npm `>=9.0.0`. | Documents compatible runtimes for the updated tooling. |
+| Browser targets | Vite's defaults target Chrome 111 and iOS Safari 16.4, newer than versions selected by the resolved Browserslist queries. | `build.target: ['chrome109', 'edge111', 'firefox114', 'safari16.4', 'ios15.6']`. | Includes Chrome 109 and iOS Safari 15.6 in JavaScript syntax transformations. This does not establish equivalent CRA coverage for CSS, browser APIs, or additional browser families; browser verification remains pending. |
 
 ## Verification and Remaining Checks
 
-Production builds passed, the Vite development server served HTML and React modules on port 3000, and explicit ESLint configuration checked all 62 source/configuration files with zero errors and eight existing warnings. The production bundle-size warning remains. Generated artifacts continue to be tracked in `build/`.
+Production builds passed, the Vite development server served HTML and React modules on port 3000, and explicit ESLint configuration checked all 62 source/configuration files with zero errors and eight existing warnings. The production bundle-size warning remains. Generated `build/` output is ignored and no longer tracked.
 
-`.gitignore` includes `build/`, which ignores new untracked build files but does not untrack previously committed files. Existing build artifacts can remain tracked while newly generated Vite assets are ignored; this is a mixed tracking state that should be resolved when deciding the artifact policy.
+`.gitignore` includes `build/`, and previously committed build artifacts have been untracked. Production deployment must run `npm run build` to generate the files it serves.
 
-Manual browser/backend workflows and deployment runtime/settings still require verification. Docker and browser-target configuration are unchanged and deferred to separate work. Dependency changes and accepted tooling risks are recorded in [dependency-updates.md](dependency-updates.md).
+CRA's test runner was removed with `react-scripts`. Testing Library remains installed; Vitest setup and further browser/backend workflow testing are deferred to the testing branch. Deployment runtime/settings still require verification. Docker configuration is unchanged and deferred to separate work. Production browser targets are explicitly configured; real-browser compatibility checks remain pending. Dependency changes and accepted tooling risks are recorded in [dependency-updates.md](dependency-updates.md).
 
 ## Possible Future Update: Use Vite's Default Output Directory
 

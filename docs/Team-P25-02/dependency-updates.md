@@ -33,6 +33,13 @@ Risk: removing CRA presets without a replacement leaves ESLint unconfigured or l
 
 Mitigation: applied explicit Espree configuration using the existing React, Hooks, import, and accessibility plugins. Preserved 113 rules with their options and severities, excluding unused Flow rules and TypeScript/Jest overrides. ESLint checked all 62 files with zero errors and the same eight warnings; build and whitespace checks passed.
 
+Possible future improvement: replace the explicit 113-rule listing
+with maintained shared presets and a small set of overrides. Compare
+effective rules, options, severities, and lint results before switching
+to avoid silently losing checks. Restoring `react-app` and
+`react-app/jest` would reintroduce Babel parsing and the previously
+flagged dependency chain, so that option is deferred.
+
 ## Accepted Risk: ESLint 8
 
 **Retaining ESLint 8 is a temporary scope decision, not a Vite requirement.**
@@ -49,16 +56,16 @@ Mitigation: retain the lockfile, continue dependency audits, and verify linting 
 
 ## Nodemailer Upgrade
 
-Updated Nodemailer from `7.0.13` to `10.0.15`.
+The original manifest declared `^7.0.9`, and the base lockfile resolved `7.0.9`. An intermediate dependency update resolved `7.0.13` before the major upgrade to `10.0.15`.
 
 | Upgrade risk | Likelihood | Mitigation strategy |
 |---|---|---|
 | New version requires an unsupported Node runtime | Certain below Node 20; hosting version unverified | Local checks passed on Node 24. Confirm hosting uses Node 20+ before deployment. |
 | API or message-composition changes break existing email helpers | Low based on current usage and checks | Repeat invitation, reminder, and password-reset composition and failure checks. All eight helper and transport-configuration checks passed on the new version. |
-| SMTP behavior changes affect authentication or delivery | Unverified with the actual provider | Verify the provider connection and send each email type to controlled test inboxes before deployment. |
+| SMTP behavior changes affect authentication or delivery | Unverified with the actual provider | Verify the provider connection and send each email type to controlled test inboxes in the testing branch before deployment. |
 
-Strategy: upgrade Nodemailer in isolation, compare behavior with the previous version, run the backend audit, and verify actual SMTP delivery before deployment. The backend audit reported zero vulnerabilities. Retain the previous dependency manifest and lockfile revision for rollback if verification fails.
+Strategy: compare behavior with the previous version, run the backend audit, and verify actual SMTP delivery before deployment. Real SMTP delivery remains unverified; provider connection and delivery checks are deferred to the testing branch. The backend audit reported zero vulnerabilities. Retain the previous dependency manifest and lockfile revision for rollback if verification fails.
 
 ## Verification Status
 
-Root npm audit reported zero vulnerabilities during parser installation; the backend audit reported zero after the Nodemailer upgrade. These are results at verification time, not guarantees of security. Manual browser/backend workflows, real SMTP delivery, and hosting runtime checks remain pending.
+Root npm audit reported zero vulnerabilities during parser installation; the backend audit reported zero after the Nodemailer upgrade. These are results at verification time, not guarantees of security. Further browser/backend workflow testing and real SMTP delivery checks are deferred to the testing branch. Hosting runtime checks remain pending.

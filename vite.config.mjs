@@ -5,6 +5,7 @@ export default defineConfig({
   plugins: [react()],
   build: {
     outDir: 'build',
+    target: ['chrome109', 'edge111', 'firefox114', 'safari16.4', 'ios15.6'],
   },
   server: {
     host: '0.0.0.0',
