@@ -1,321 +1,98 @@
-
-
 # PEERS: Peer End to End Review System
 
-Peer Evaluation Automation and Feedback System
+PEERS is a React application with an Express API for course and team management, student peer evaluations, email invitations and reminders, and evaluation reports.
 
-Date: 09/04/2025  
-Status: Planning / In Progress
+This README describes the current repository setup. The [historical README](README-historical.md) preserves the earlier project plan, milestones, team information, and proposed features.
 
-A web-based platform to streamline peer evaluations in team-based courses. Professors can securely create and manage student rosters, assign students to courses/teams, trigger email invitations, and receive structured, professor-friendly reports with both numeric and textual feedback. Optional AI features may summarize comments and flag potential concerns, depending on timeline and scope.
+## Requirements
 
-Project website URL: 
+- Node.js satisfying `^20.19.0 || >=22.12.0` and npm 9 or newer. Both packages enforce these requirements with `engine-strict=true`.
+- Git to clone the repository, or download its ZIP.
+- A reachable development MongoDB instance.
+- SMTP credentials to exercise invitations, reminders, and password resets.
 
-https://peer-evaluation-frontend.onrender.com/
+Use a Node version manager such as nvm. In WSL, install and run Linux Node/npm inside WSL; for native Windows, use nvm-windows. Verify your installation:
 
-You can find more information about the project on our website:
+```bash
+node --version
+npm --version
+```
 
-[Project Peer Evaluation Site](https://sites.google.com/d/1--7WFDwNF4-hJqB9fhH2VXELfxtjDwCy/p/1p6or7HniSsgUybdmLGxZgFywj6BTcmaA/edit)
+## Local setup
 
----
+Clone the repository and install dependencies from its root:
 
-## Objectives
+```bash
+git clone https://github.com/jonpauljah/ProjectPeerEvaluation-P25-02.git
+cd ProjectPeerEvaluation-P25-02
+npm run setup
+```
 
-- Simplify and automate peer evaluations for team-based courses
-- Provide an intuitive UI for professors and students
-- Ensure secure roster management and personalized evaluation links
-- Generate clear, actionable reports (numeric + textual)
-- Optionally use AI to summarize feedback and detect red flags (time-permitting)
+The setup command installs the frontend and backend dependencies once each.
 
----
+Configure `src/backend/.env` using `src/backend/.env.example` as a reference. Preserve any existing configuration. Set these values for your development environment:
 
-## Core Features
+| Variable | Purpose |
+| --- | --- |
+| `MONGODB_URI` | Connection URI for your development MongoDB database. |
+| `JWT_SECRET` | A unique signing secret; add it explicitly because the example omits it. |
+| `PORT` | Backend port; defaults to `5000`. |
+| `FRONTEND_URL` | Use `http://localhost:3000` for local email links. |
+| `SMTP_HOST`, `SMTP_PORT` | Your SMTP server and port. |
+| `SMTP_SECURE` | `true` for implicit TLS; port `465` also enables it. |
+| `SMTP_USER`, `SMTP_PASS`, `SMTP_FROM` | SMTP credentials and sender address. |
 
-- Secure professor login and multi-course management
-- Student roster upload and team assignment
-- Personalized email invitations for peer evaluations
-- Personalized evaluation forms per student/team
-- Aggregated, structured reporting for professors
-- Downloadable reports (raw data, calculated scores, summaries)
-- Optional AI assistance:
-  - Text summarization of comments
-  - Red flag detection (e.g., significant discrepancies or concerning language)
+The repository currently tracks `src/backend/.env`, and its ignore rules do not exclude environment files. Do not commit credentials or real student data.
 
-AI features are optional and will depend on remaining timeline after core milestones are met.
+Start both servers:
 
----
+```bash
+npm run dev
+```
 
-## Project Timeline and Milestones
+Open the frontend at **http://localhost:3000**. The backend defaults to **http://localhost:5000**, with API routes under `/api`. Check **http://localhost:5000/api/health** for a running API process; this endpoint does not verify MongoDB or SMTP connectivity.
 
-📅 Milestone 1 — By 09/28/2025  
-- Finalize system requirements and user stories  
-- Finalize tech stack  
-- Build basic UI mockups and initial backend structure  
-- Schedule and present initial prototype
+MongoDB must already be reachable; the startup command does not start it. Restart the backend after changing backend code or environment settings. The Windows `start.bat` and `start.ps1` scripts run setup before starting both servers.
 
-📅 Milestone 2 — By 10/26/2025  
-- Implement secure login and student roster upload  
-- Begin email automation and evaluation form generation  
-- Enable data collection and report generation  
-- Begin testing with sample data  
-- Schedule milestone meeting and present working demo
+## Commands
 
-📅 Milestone 3 — By 11/30/2025  
-- Finalize UI and polish user experience  
-- Complete email automation and form generation  
-- Complete documentation  
-- Implement optional AI features (summarization, red flag detection)  
-- Present final system and submit all deliverables
+Run these from the repository root:
 
----
+| Command | Behavior |
+| --- | --- |
+| `npm run setup` | Install frontend and backend dependencies. |
+| `npm run dev` | Start both servers. |
+| `npm run start:frontend` / `npm start` | Start Vite on port 3000. |
+| `npm run start:backend` | Start Express from `src/backend`. |
+| `npm run build` | Build the frontend into `build/`. |
+| `npm run preview` | Preview the frontend production build locally. |
 
+Production builds, including local previews, use the configured deployed backend. Use the development server at `localhost:3000` for local API testing. The shared API service also selects the deployed backend on hosts other than `localhost`.
 
-## Getting Started (For New Users)
+No automated test command is currently configured in either package. Verify relevant browser/API workflows against development data, and run `npm run build` for frontend changes. Testing infrastructure is planned separately.
 
-### Prerequisites
+## Project structure
 
-1. **Install [Node.js and npm](https://nodejs.org/)**
-  - Download and install the LTS version for your operating system.
-  - npm is included with Node.js. Use Node 20.19+, or 22.12+ on newer supported release lines, and npm 9+.
-  - In WSL, use Linux Node/npm rather than Windows executables.
+- `index.html` and `src/index.jsx`: frontend entry points.
+- `src/frontend/`: React pages, authentication context, API services, and styles.
+- `src/backend/`: Express server, routes, controllers, Mongoose models, middleware, utilities, and maintenance scripts.
+- `public/`: static hosting assets.
+- `docs/Team-P25-02/`: architecture, requirements, and development reports.
+- `vite.config.mjs`: frontend server and build configuration.
+- `build/`: generated frontend output, ignored by Git.
 
-2. **Install [Git](https://git-scm.com/)** (optional, for cloning the repo)
-  - Or download the ZIP from GitHub and extract it.
+The frontend uses React and Vite; the backend uses Express, Mongoose/MongoDB, JWT authentication, and Nodemailer/SMTP.
 
-3. **Install [VS Code](https://code.visualstudio.com/)** (already installed)
+## Troubleshooting
 
----
+- Missing dependencies: run `npm run setup` from the repository root.
+- Unsupported runtime: check Node/npm versions against the requirements above.
+- Port conflicts: Vite uses port 3000 with strict port checking; the backend defaults to 5000. Changing ports also requires checking frontend API URLs and backend CORS configuration.
+- Database errors: check `MONGODB_URI`, database availability, and backend logs.
+- Email failures: check SMTP configuration and test delivery with controlled recipients.
 
-### Setup Steps
+## Documentation and contributing
 
-1. **Clone or Download the Repository**
-  - Using Git: `git clone <repo-url>`
-  - Or download ZIP and extract.
+See the [Team P25-02 documentation index](docs/Team-P25-02/README.md) and the [Vite migration notes](docs/Team-P25-02/CRA-to-Vite%20migration.md). The historical README records earlier plans; proposed features there do not establish current implementation.
 
-2. **Open the Project Folder in VS Code**
-
-3. **Install Dependencies**
-  - Open a terminal in VS Code (Ctrl+`)
-  - Run:
-    ```bash
-    npm run setup
-    ```
-  - This will install all required packages for both frontend and backend.
-
-4. **Start the Application**
-  - To start both frontend and backend together:
-    ```bash
-    npm run dev
-    ```
-  - Or use the provided scripts:
-    - Windows Batch: `./start.bat`
-    - PowerShell: `./start.ps1`
-
-5. **Access the App in Your Browser**
-  - Frontend: [http://localhost:3000](http://localhost:3000)
-  - Backend API: [http://localhost:5000](http://localhost:5000)
-
----
-
-### Troubleshooting
-
-- If you see errors about missing dependencies, re-run `npm run setup`.
-- If ports 3000 or 5000 are in use, close other apps or change the port in the config.
-- For Windows, you may need to allow scripts to run (see PowerShell execution policy).
-- If you have issues with email sending, check your `.env` file for SMTP settings.
-
----
-
-### Available Scripts
-- `npm run dev` - Start both frontend and backend servers simultaneously
-- `npm run setup` - Install dependencies for both frontend and backend
-- `npm run start:backend` - Start only the backend server
-- `npm run start:frontend` - Start the Vite frontend on port 3000
-- `npm start` - Start the Vite frontend
-- `npm run build` - Generate production files in `build/`
-- `npm run preview` - Preview the production build locally; production API requests use the deployed backend
-
----
-
----
-
-## Final Deliverables
-
-- Updated research report including finalized tech stack and meeting notes
-- Fully functional, multi-user system for:
-  - Secure roster management
-  - Triggering peer evaluations
-  - Receiving structured feedback reports
-- Integrated email system sending personalized forms based on team membership
-- Downloadable reports:
-  - Raw numeric and textual feedback
-  - Calculated scores based on preset formulas
-  - Optional AI-generated summaries and red-flag alerts
-- Complete, documented source code hosted on GitHub
-- Documentation:
-  - System architecture and design documents
-  - User manual for professors
-  - IT Capstone Project Plan
-
----
-
-## Collaboration & Communication
-
-- Channels: Microsoft Teams chat and KSU email  
-- Expected response time: within 24 hours  
-- Team meetings: Every Monday (weekly) to discuss blockers and priorities  
-- Meeting notes: Posted to the team site by the Team Leader  
-- Weekly reports: Submitted every Friday to the Team Leader; compiled and shared back for approval, then submitted to D2L  
-- File sharing: GitHub and email
-
----
-
-## Team
-
-| Role                | Name            | Responsibilities                                                       
-|---------------------|-----------------|------------------------------------------------------------------------
-| Project Owner       | Geetika Vyas    | Project owner and stakeholder                                         
-| Team Leader         | Preston Jordan  | Documentation, repository creation, project coordination               
-| Team Member         | Linh La         | Back-end development                                                   
-| Team Member         | Sameer Khan     | Front-end development, Google Site creation, repository creation       
-| Team Member         | Nnedi Okafor    | Front-end development                                                   
-| Team Member         | Deangela Saad   | Back-end development                                                  
-| Advisor/Instructor  | Jack Zheng      | Facilitate progress; advise on planning and project management         
-
-Primary contact for inquiries: Team Leader (Preston Jordan)
-
----
-
-## Repository Structure (proposed)
-
-- docs/
-  - requirements/
-  - architecture/
-  - user-manual/
-  - research-report/
-- designs/
-  - ui-mockups/
-  - wireframes/
-- meeting-notes/
-- reports/
-  - samples/
-- gantt/
-  - project-schedule.gantt
-- src/ (added as development begins)
-  - backend/
-  - frontend/
-- scripts/
-- .github/
-  - issue_templates/
-  - pull_request_template.md
-- LICENSE
-- CONTRIBUTING.md
-
-Note: Actual structure may evolve with the project.
-
----
-
-## Tech Stack
-
-To be finalized by Milestone 1 (09/28/2025).  
-Documentation will specify:
-- Front-end framework (TBD)
-- Back-end framework (TBD)
-- Database (TBD)
-- Email service provider / SMTP (TBD)
-- Authentication (TBD)
-- Optional AI/NLP services or libraries (TBD)
-- Deployment target (TBD)
-
----
-
-## High-Level Workflow
-
-1. Professor creates course and uploads roster (with emails) and team assignments.  
-2. System generates personalized evaluation links.  
-3. Email service sends invitations/reminders to students.  
-4. Students evaluate teammates via web forms.  
-5. System aggregates responses and computes scores.  
-6. Professor downloads or views reports (numeric + textual).  
-7. Optional: AI summaries and flagged red flags for review.
-
----
-
-## Lower-Level Tasks 
-
-- Professor logs into the system and creates a new course. 
-   - Professor can update course information 
-   - Professor can delete course information 
-- Professor uploads student roster csv files that include students' names and emails.  
-   - Professor can add students to courses manually 
-   - Professor can edit student information 
-   - Professor can delete student information
-- Professor creates teams
-   - Professor can add students to teams
-   - Professor can delete students from teams
-   - Professor can edit teams’ information
-   - Professor can delete teams’ information
-- Professor selects course and sends evaluation rubric 
-- Evaluation Link Generation 
-  - System automatically generates unique, secure evaluation links for each student. 
-  - Links are personalized based on team membership. 
-- Email Distribution 
-  - Integrated email service sends:  
-  - Initial invitations with evaluation links. 
-  - Automated reminders to non-respondents. 
-  - Emails are personalized and tracked for delivery status. 
--  Peer Evaluation Submission 
-  - Students access web-based forms via their unique links. 
-  - Forms include structured questions for teammate evaluation based on the rubric. 
-  - Submissions are encrypted and stored securely. 
-- Feedback Aggregation and Scoring 
-  - System aggregates and evaluates feedback. 
-  - System calculates grades using preset formulas. 
-- Optional AI Analysis 
-  - AI module generates:  
-  - Summarized feedback per student/team. 
-  - Alerts for potential red flags (e.g., low scores, concerning comments). 
-- Report Access for Professors 
-  - Professor can:  
-  - View reports online or download them. 
-  - Choose between raw data, calculated scores, and AI summaries. 
-  - Filter by team, student, or evaluation round. 
-  - AI module tested and optional for use 
-
-## Security & Privacy
-
-- Store student data securely; restrict access to authorized users only.  
-- Use HTTPS for all traffic; protect credentials and tokens.  
-- Avoid sending sensitive data in plain text emails.  
-- Comply with institutional policies and applicable regulations (e.g., FERPA).  
-- Document data retention and deletion policies.
-
----
-
-## Risks, Assumptions, and Planning
-
-- No major delays currently foreseen.  
-- Capacity planned with two front-end and two back-end developers to cover downtime.  
-- Client (professor) availability expected to be consistent.  
-- AI features are optional and contingent on time after core functionality is complete.  
-- Email deliverability and spam filtering may require configuration and testing.
-
----
-
-## Contributing
-
-- Use feature branches and open pull requests for review.  
-- Link issues to PRs and keep commit messages descriptive.  
-- Follow coding standards defined in CONTRIBUTING.md (to be added).  
-- Document changes in PR descriptions and update relevant docs.
-
----
-
-
-## Acknowledgments
-
-- Advisor/Instructor: Dr. Jack Zheng (guidance on planning and management)
-
----
-
-Questions or suggestions? Open an issue in this repository or contact the Team Leader.
+Use feature branches, link relevant issues in pull requests, describe behavior changes, and report validation. Check applicable `AGENTS.md` instructions before editing.
